@@ -4,6 +4,168 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MovieSearch</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <script defer src="https://friconix.com/cdn/friconix.js"></script>
   </head>
-  <body></body>
+  <body>
+    <div id="root">
+      <header class="header navbar justify-content-center text-light bg-dark">
+        <h1 class="font-weight-bolder">MovieSearch</h1>
+      </header>
+
+      <main class="main container d-flex flex-column py-2">
+        <div class="search input-group">
+          <div class="input-group-prepend">
+            <button
+              class="btn btn-outline-secondary"
+              type="button"
+              id="button-keyboard"
+            >
+              <i class="fi-xnsuxm-keyboard-solid"></i>
+            </button>
+          </div>
+          <input type="text" class="form-control" placeholder="Die Hard" />
+          <div class="input-group-append">
+            <button class="btn btn-secondary" type="button" id="button-search">
+              <i class="fi-xnsuhm-search"></i> Search
+            </button>
+          </div>
+        </div>
+
+        <div id="splide" class="splide">
+          <div class="splide__track">
+            <ul class="splide__list">
+              <li class="splide__slide">
+                <div class="card">
+                  <img
+                    src="https://api.adorable.io/avatars/150/1"
+                    class="card-img-top"
+                    alt="1"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">Slide 1</h5>
+                    <p class="card-text">Year, Stars</p>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="card">
+                  <img
+                    src="https://api.adorable.io/avatars/150/2"
+                    class="card-img-top"
+                    alt="2"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">Slide 2</h5>
+                    <p class="card-text">Year, Stars</p>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="card">
+                  <img
+                    src="https://api.adorable.io/avatars/150/3"
+                    class="card-img-top"
+                    alt="3"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">Slide 3</h5>
+                    <p class="card-text">Year, Stars</p>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="card">
+                  <img
+                    src="https://api.adorable.io/avatars/150/4"
+                    class="card-img-top"
+                    alt="4"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">Slide 4</h5>
+                    <p class="card-text">Year, Stars</p>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="card">
+                  <img
+                    src="https://api.adorable.io/avatars/150/5"
+                    class="card-img-top"
+                    alt="5"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">Slide 5</h5>
+                    <p class="card-text">Year, Stars</p>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="card">
+                  <img
+                    src="https://api.adorable.io/avatars/150/6"
+                    class="card-img-top"
+                    alt="6"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">Slide 6</h5>
+                    <p class="card-text">Year, Stars</p>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="card">
+                  <img
+                    src="https://api.adorable.io/avatars/150/7"
+                    class="card-img-top"
+                    alt="7"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">Slide 7</h5>
+                    <p class="card-text">Year, Stars</p>
+                  </div>
+                </div>
+              </li>
+              <li class="splide__slide">
+                <div class="card">
+                  <img
+                    src="https://api.adorable.io/avatars/150/8"
+                    class="card-img-top"
+                    alt="8"
+                  />
+                  <div class="card-body">
+                    <h5 class="card-title">Slide 8</h5>
+                    <p class="card-text">Year, Stars</p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </main>
+
+      <footer class="footer navbar justify-content-around text-light bg-dark">
+        <a
+          class="nav-link text-reset"
+          href="https://rs.school/"
+          target="_blank"
+          title="The Rolling Scopes School"
+          >RS School</a
+        >
+        <a
+          class="nav-link text-reset"
+          href="https://github.com/alekseyvlivanov"
+          target="_blank"
+          title="Aleksey Ivanov"
+          ><i class="fi-xnsuxl-github"></i> <span class="ml-1">GitHub</span></a
+        >
+      </footer>
+    </div>
+  </body>
 </html>

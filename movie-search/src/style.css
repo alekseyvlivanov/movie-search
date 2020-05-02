@@ -1,0 +1,12 @@
+.search {
+  padding-right: 3em;
+  padding-left: 3em;
+}
+
+.splide__arrow--prev {
+  left: 0.5em;
+}
+
+.splide__arrow--next {
+  right: 0.5em;
+}

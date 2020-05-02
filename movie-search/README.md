@@ -18,8 +18,6 @@
 
 ![screenshot](https://raw.githubusercontent.com/rolling-scopes-school/tasks/master/tasks/images/movie-search.png)
 
-**Demo** https://movie-search-rss.netlify.com/
-
 ## Работа приложения
 
 - когда пользователь открывает приложение, на странице отображается поле поиска и карточки с информацией о фильмах по произвольному, указанному разработчиком запросу
@@ -34,6 +32,9 @@
 - на каждой карточке отображается следующая информация о фильме: название, постер, дата выхода, рейтинг IMDb.
 - карточки можно перелистывать, для этого используется слайдер/свайпер (для его добавления может использоваться библиотека).
 - при достижении конца слайдера/свайпера происходит загрузка следующей страницы результата поиска из API, если еще имеются данные для загрузки по данному поисковому запросу
+  - пагинация работает по принципу бесконечного скроллинга, т.е. пролистывание слайдера/свайпера до тех пор, пока возможно загрузить дополнительные данные по текущему поисковому зарпросу без зацикливания слайдов
+  - во избежание задержек в работе приложения, при наличии данных для загрузки, загрузку следующей страницы можно осуществлять, когда пользователю осталось пролистать определенное количество карточек
+  - индикация текущего слайда в виде кружков или индикация текущей страницы не является обязательным
 - если пользователь вводит некорректный поисковый запрос, по которому API возвращает ошибку, данные на карточках не меняются, приложение не ломается, выводится уведомление об ошибке
 
 ![screenshot](https://raw.githubusercontent.com/rolling-scopes-school/tasks/master/tasks/images/movie-search-error.png)
@@ -129,6 +130,7 @@
   - [Fetch](https://learn.javascript.ru/fetch)
   - [Асинхронные функции (async/await)](https://youtu.be/5kAPExqSZ1I)
   - [JavaScript Fetch API and using Async/Await](https://dev.to/shoupn/javascript-fetch-api-and-using-asyncawait-47mp)
+  - [Вебинар: Асинхронность в JavaScript. Таймеры, промисы, async/await](https://youtu.be/Ih6Q7ka2eSQ)
 - **Тестирование. Юнит-тесты. Jest**
   - [Testing](https://youtu.be/xrS60rkoG3w)
   - [Testing live coding](https://youtu.be/qFSrImO04X8)
@@ -136,6 +138,7 @@
   - [Магические числа](https://ru.code-basics.com/languages/javascript/modules/variables/lessons/magic-numbers)
   - [Как писать чистый код: обзор лучших практик JavaScript](https://techrocks.ru/2019/08/27/writing-clean-code-in-javascript/)
   - [Рекомендации по написанию чистого кода на JavaScript](https://habr.com/ru/company/ruvds/blog/454520/)
+  - [Разбор похожего задания YouTube Client](https://www.youtube.com/watch?v=1Nk09Z4ca4A)
 - **API**
   - [OMDb API](http://www.omdbapi.com/)
   - [Yandex.Translate API](https://tech.yandex.com/translate/)
