@@ -1,33 +1,26 @@
 import AppHeader from '../app-header';
 import SearchPanel from '../search-panel';
-import Slider from '../slider';
+import Spinner from '../spinner';
+import Swiper from '../swiper';
 import AppFooter from '../app-footer';
 
 import './app.css';
 
-export default class app {
-  constructor() {
-    this.appClassName = 'movie-search';
-    this.mainClassName = 'main container d-flex flex-column py-2';
-  }
-
-  render() {
-    const appHeader = new AppHeader();
-    const searchPanel = new SearchPanel();
-    const slider = new Slider();
-    const appFooter = new AppFooter();
-
+export default class App {
+  static render(term = '') {
     const movieSearch = document.createElement('div');
-    movieSearch.className = this.appClassName;
+    movieSearch.className = 'movie-search';
 
-    const myMain = document.createElement('main');
-    myMain.className = this.mainClassName;
-    myMain.append(searchPanel.render());
-    myMain.append(slider.render());
+    const appMain = document.createElement('main');
+    appMain.className = 'main container d-flex flex-column py-2';
 
-    movieSearch.append(appHeader.render());
-    movieSearch.append(myMain);
-    movieSearch.append(appFooter.render());
+    appMain.append(SearchPanel.render(term));
+    appMain.append(Spinner.render());
+    appMain.append(Swiper.render());
+
+    movieSearch.append(AppHeader.render());
+    movieSearch.append(appMain);
+    movieSearch.append(AppFooter.render());
 
     return movieSearch;
   }

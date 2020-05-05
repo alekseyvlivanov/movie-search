@@ -1,4 +1,5 @@
 .search-panel {
-  padding-right: 3em;
-  padding-left: 3em;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
