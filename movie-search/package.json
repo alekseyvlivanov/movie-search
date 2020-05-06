@@ -4,6 +4,7 @@
   "description": "MovieSearch",
   "private": true,
   "scripts": {
+    "lint": "eslint ./ --ignore-path .gitignore --fix",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode development"

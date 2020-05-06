@@ -7,7 +7,7 @@ export default class AppFooter {
       'footer navbar navbar-dark text-light bg-dark justify-content-around';
 
     appFooter.innerHTML = `
-    <a class="nav-link" href="https://rs.school" target="_blank" title="The Rolling Scopes School">RS School</a>
+    <a class="nav-link" href="https://rs.school" target="_blank" title="The Rolling Scopes School">RS School 2020q1</a>
     <a class="nav-link" href="https://github.com/alekseyvlivanov" target="_blank" title="Aleksey Ivanov"><i class="fa fa-github" aria-hidden="true"></i> GitHub</a>
     `;
 

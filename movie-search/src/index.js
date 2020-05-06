@@ -4,7 +4,7 @@ import Slide from './components/slide';
 import OMDbService from './services/omdb-service';
 import SwiperService from './services/swiper-service';
 
-const term = 'Die Hard';
+const term = 'Doc Martin';
 document.getElementById('root').append(App.render(term));
 
 // const search = document.getElementById('search');
@@ -19,9 +19,10 @@ omdbServiceBySearch
   .getResourceBySearch(term)
   .then((bodySearch) => {
     bodySearch.Search.forEach((movie) => {
-      window.console.log(movie);
       omdbServiceById.getResourceById(movie.imdbID).then((bodyId) => {
-        window.console.log(bodyId.imdbRating);
+        window.console.log(movie);
+        window.console.log(bodyId);
+        window.console.log('-----');
 
         const slide = new Slide(
           movie.Title,
