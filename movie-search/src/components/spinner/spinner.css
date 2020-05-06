@@ -3,5 +3,5 @@
   top: 9em;
   left: 50%;
   transform: translateX(-50%) translateY(-50%);
-  z-index: 2;
+  z-index: 100;
 }
