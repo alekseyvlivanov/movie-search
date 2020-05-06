@@ -1,6 +1,6 @@
 export default class OMDbService {
   constructor() {
-    this.apiBase = 'http://www.omdbapi.com';
+    this.apiBase = 'https://www.omdbapi.com';
     this.apiKey = '4a3b711b';
   }
 
