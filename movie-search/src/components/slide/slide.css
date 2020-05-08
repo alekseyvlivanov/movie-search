@@ -1,7 +1,29 @@
+.card a {
+  text-decoration: none;
+}
+
+.card a:hover {
+  background-color: lightgray;
+}
+
 .card-header {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.card-img {
+  overflow: hidden;
+}
+
+.card-img img {
+  height: 300px;
+  width: 100%;
+  transition: transform 0.5s ease;
+}
+
+.card-img:hover img {
+  transform: scale(1.1);
 }
 
 .card-footer {

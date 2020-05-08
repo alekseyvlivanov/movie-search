@@ -3,53 +3,11 @@ import Slide from '../components/slide';
 import OMDbService from './omdb-service';
 import SwiperService from './swiper-service';
 
-export default class mainSearch {
-  static throttle(func, ms) {
-    let isThrottled = false;
-    let savedArgs;
-    let savedThis;
-
-    function wrapper(...args) {
-      if (isThrottled) {
-        savedArgs = args;
-        savedThis = this;
-        return;
-      }
-
-      func.apply(this, args);
-
-      isThrottled = true;
-
-      setTimeout(() => {
-        isThrottled = false;
-
-        if (savedArgs) {
-          wrapper.apply(savedThis, ...savedArgs);
-          savedArgs = null;
-          savedThis = null;
-        }
-      }, ms);
-    }
-
-    return wrapper;
-  }
-
-  static debounce(func, ms) {
-    let isCooldown = false;
-
-    return (...args) => {
-      if (isCooldown) return;
-
-      func.apply(this, args);
-
-      isCooldown = true;
-
-      setTimeout(() => {
-        isCooldown = false;
-      }, ms);
-    };
-  }
-
+function updateInfo(type, msg) {
+  const infoPanel = document.getElementById('info-panel');
+  infoPanel.innerHTML = `<span class="text-${type}"><small>${msg}</small></span>`;
+}
+export default class mainService {
   constructor(term) {
     this.search = document.getElementById('search');
     this.clearSearch = document.getElementById('clear-search');
@@ -66,46 +24,93 @@ export default class mainSearch {
     this.makeSearch(term);
   }
 
+  // TODO
+  // при достижении конца слайдера/свайпера происходит загрузка следующей страницы поискового запроса
+
+  // TODO
+  // поисковый запрос можно набирать на виртуальной клавиатуре.
+  // Есть возможность переключения языка клавиатуры кликом мышки
+
+  // TODO
+  // поисковый запрос можно отправить, кликая мышкой по кнопке Enter на виртуальной клавиатуре.
+  // Поисковый запрос можно редактировать при помощи виртуальной клавиатуры перемещаясь стрелками вправо-влево и вводя текст на позицию курсора
+
   makeSearch(term) {
-    // TODO - make alert if empty or equals last term
-    if (term === '' || term === this.lastTerm) return;
+    if (term === '' || term === this.lastTerm) {
+      updateInfo('info', 'Enter new non-empty word or phrase to search.');
+      return;
+    }
 
     this.lastTerm = term;
 
-    // TODO - check russian and make translation
+    // TODO
+    // при вводе запроса на русском языке поисковый запрос переводится на английский язык,
+    // выводится уведомление "Showing results for ..."
 
     this.spinner.classList.remove('invisible');
 
-    this.omdbServiceBySearch.getResourceBySearch(term).then((bodySearch) => {
-      if (
-        this.swiperService.swiper.slides.length > 0 &&
-        bodySearch.Search.length > 0
-      ) {
-        this.swiperService.swiper.removeAllSlides();
-      }
+    this.omdbServiceBySearch
+      .getResourceBySearch(term)
+      .then((bodySearch) => {
+        window.console.log(bodySearch);
 
-      bodySearch.Search.forEach((movie) => {
-        this.omdbServiceById.getResourceById(movie.imdbID).then((bodyId) => {
-          const slide = new Slide(
-            movie.Title,
-            movie.Poster,
-            movie.Year,
-            bodyId.imdbRating,
+        if (bodySearch.Response !== 'True') {
+          updateInfo('danger', `No results for '${term}'.`);
+          return;
+        }
+
+        Promise.all(
+          bodySearch.Search.map((e) =>
+            this.omdbServiceById.getResourceById(e.imdbID).then((bodyID) => {
+              return {
+                imdbID: e.imdbID,
+                Title: e.Title,
+                Type: e.Type,
+                Poster: e.Poster,
+                Year: e.Year,
+                imdbRating: bodyID.imdbRating,
+              };
+            }),
+          ),
+        ).then((items) => {
+          const slides = items.map((item) => {
+            const slide = new Slide(
+              item.imdbID,
+              item.Title,
+              item.Type,
+              item.Poster,
+              item.Year,
+              item.imdbRating,
+            );
+            return slide.render();
+          });
+
+          const arr = new Array(this.swiperService.swiper.slides.length);
+
+          this.swiperService.swiper.appendSlide(slides);
+          this.swiperService.swiper.removeSlide(
+            arr.fill(0).map((_, idx) => idx),
           );
-          this.swiperService.swiper.appendSlide(slide.render());
-        });
-      });
-    });
+          this.swiperService.swiper.slideTo(0);
 
-    setTimeout(() => {
-      this.spinner.classList.add('invisible');
-    }, 500);
+          updateInfo(
+            'info',
+            `${bodySearch.totalResults} result(s) for '${term}'.`,
+          );
+        });
+      })
+      .catch((err) => {
+        updateInfo('danger', `${err}`);
+      })
+      .finally(() => this.spinner.classList.add('invisible'));
   }
 
   addListeners() {
     this.search.addEventListener('keyup', (e) => {
       if (e.code === 'Enter') {
-        this.makeSearch(e.target.value);
+        this.search.value = this.search.value.trim();
+        this.makeSearch(this.search.value);
+        this.search.focus();
       }
     });
 
@@ -115,6 +120,7 @@ export default class mainSearch {
     });
 
     this.buttonSearch.addEventListener('click', () => {
+      this.search.value = this.search.value.trim();
       this.makeSearch(this.search.value);
       this.search.focus();
     });

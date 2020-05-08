@@ -3,7 +3,7 @@ import './search-panel.css';
 export default class SearchPanel {
   static render(term = '') {
     const searchPanel = document.createElement('div');
-    searchPanel.className = 'search-panel input-group pb-2';
+    searchPanel.className = 'search-panel input-group';
 
     const keyboard = document.createElement('i');
     keyboard.className = 'fa fa-keyboard-o fa-lg';

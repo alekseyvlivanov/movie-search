@@ -18,6 +18,7 @@ export default class SwiperService {
           spaceBetween: 40,
         },
       },
+      centerInsufficientSlides: true,
       keyboard: {
         enabled: true,
       },
