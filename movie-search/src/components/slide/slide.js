@@ -36,7 +36,6 @@ export default class Slide {
     cardBody.className = 'card-img';
 
     const cardImage = document.createElement('img');
-    // cardImage.className = 'card-img-top';
     cardImage.alt = 'movie title';
     cardImage.onerror = onError;
     cardImage.src = this.poster;

@@ -7,6 +7,25 @@ function updateInfo(type, msg) {
   const infoPanel = document.getElementById('info-panel');
   infoPanel.innerHTML = `<span class="text-${type}"><small>${msg}</small></span>`;
 }
+
+function preloadImages(sources, callback) {
+  let counter = 0;
+
+  function checkCounter() {
+    counter += 1;
+    if (counter === sources.length) callback();
+  }
+
+  sources.forEach((source) => {
+    const img = document.createElement('img');
+
+    img.onload = checkCounter;
+    img.onerror = checkCounter;
+
+    img.src = source;
+  });
+}
+
 export default class mainService {
   constructor(term) {
     this.search = document.getElementById('search');
@@ -52,8 +71,6 @@ export default class mainService {
     this.omdbServiceBySearch
       .getResourceBySearch(term)
       .then((bodySearch) => {
-        window.console.log(bodySearch);
-
         if (bodySearch.Response !== 'True') {
           updateInfo('danger', `No results for '${term}'.`);
           return;
@@ -73,36 +90,42 @@ export default class mainService {
             }),
           ),
         ).then((items) => {
-          const slides = items.map((item) => {
-            const slide = new Slide(
-              item.imdbID,
-              item.Title,
-              item.Type,
-              item.Poster,
-              item.Year,
-              item.imdbRating,
-            );
-            return slide.render();
-          });
+          preloadImages(
+            items.map((e) => e.Poster),
+            () => {
+              const arr = new Array(this.swiperService.swiper.slides.length);
 
-          const arr = new Array(this.swiperService.swiper.slides.length);
+              items.forEach((item) => {
+                const slide = new Slide(
+                  item.imdbID,
+                  item.Title,
+                  item.Type,
+                  item.Poster,
+                  item.Year,
+                  item.imdbRating,
+                );
+                this.swiperService.swiper.appendSlide(slide.render());
+              });
 
-          this.swiperService.swiper.appendSlide(slides);
-          this.swiperService.swiper.removeSlide(
-            arr.fill(0).map((_, idx) => idx),
-          );
-          this.swiperService.swiper.slideTo(0);
+              this.swiperService.swiper.removeSlide(
+                arr.fill(0).map((_, idx) => idx),
+              );
+              this.swiperService.swiper.slideTo(0);
 
-          updateInfo(
-            'info',
-            `${bodySearch.totalResults} result(s) for '${term}'.`,
+              updateInfo(
+                'info',
+                `${bodySearch.totalResults} result(s) for '${term}'.`,
+              );
+
+              this.spinner.classList.add('invisible');
+            },
           );
         });
       })
       .catch((err) => {
         updateInfo('danger', `${err}`);
-      })
-      .finally(() => this.spinner.classList.add('invisible'));
+        this.spinner.classList.add('invisible');
+      });
   }
 
   addListeners() {
