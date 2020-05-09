@@ -33,8 +33,10 @@ export default class mainService {
     this.omdbServiceById = new OMDbService();
 
     this.lastTerm = '';
-    this.page = 0;
+    this.searchTerm = '';
     this.totalResults = 0;
+    this.page = 0;
+    this.searching = false;
 
     const swiperService = new SwiperService(
       document.getElementById('swiper-container'),
@@ -42,28 +44,21 @@ export default class mainService {
     this.swiper = swiperService.swiper;
 
     this.swiper.on('reachEnd', () => {
-      window.console.log('reachEnd:', this.swiper.slides.length);
-      window.console.log('totalResults:', this.totalResults);
-      window.console.log('page:', this.page);
-      window.console.log('-----');
-
-      // debugger;
-      // if (this.swiper.slides.length < this.totalResults) {
-      //   window.console.log(
-      //     `make search for '${this.lastTerm}' and page ${this.page + 1}`,
-      //   );
-      // }
+      if (this.swiper.slides.length < this.totalResults) {
+        this.makeSearch(this.searchTerm, this.page + 1);
+      }
     });
 
     this.makeSearch(term, 1);
   }
 
+  clearInfo() {
+    this.infoPanel.innerHTML = '';
+  }
+
   updateInfo(type, msg) {
     this.infoPanel.innerHTML = `<span class="text-${type}"><small>${msg}</small></span>`;
   }
-
-  // TODO
-  // при достижении конца слайдера/свайпера происходит загрузка следующей страницы поискового запроса
 
   // TODO
   // поисковый запрос можно набирать на виртуальной клавиатуре.
@@ -84,21 +79,29 @@ export default class mainService {
       }
     }
 
-    this.lastTerm = term;
+    if (this.searching) return;
+
+    this.clearInfo();
+    this.searching = true;
+    this.spinner.classList.remove('invisible');
+
+    // if (page > 1) debugger;
 
     // TODO
     // при вводе запроса на русском языке поисковый запрос переводится на английский язык,
     // выводится уведомление "Showing results for ..."
 
-    const searchTerm = term;
-
-    this.spinner.classList.remove('invisible');
+    this.searchTerm = term;
 
     this.omdbServiceBySearch
-      .getResourceBySearch(searchTerm, page)
+      .getResourceBySearch(this.searchTerm, page)
       .then((bodySearch) => {
         if (bodySearch.Response !== 'True') {
-          this.updateInfo('danger', `No results for '${searchTerm}'.`);
+          if (page === 1) {
+            this.updateInfo('danger', `No results for '${this.searchTerm}'.`);
+          }
+
+          this.searching = false;
           this.spinner.classList.add('invisible');
 
           return;
@@ -121,9 +124,7 @@ export default class mainService {
           preloadImages(
             items.map((e) => (e.Poster === 'N/A' ? '' : e.Poster)),
             () => {
-              const arr = new Array(this.swiper.slides.length);
-
-              items.forEach((item) => {
+              const slides = items.map((item) => {
                 const slide = new Slide(
                   item.imdbID,
                   item.Title,
@@ -132,20 +133,27 @@ export default class mainService {
                   item.Year,
                   item.imdbRating,
                 );
-                this.swiper.appendSlide(slide.render());
+                return slide.render();
               });
 
-              this.swiper.removeSlide(arr.fill(0).map((_, idx) => idx));
-              this.swiper.slideTo(0);
-
+              this.lastTerm = term;
               this.page = page;
-              this.totalResults = parseInt(bodySearch.totalResults, 10);
+
+              if (page === 1) {
+                this.totalResults = parseInt(bodySearch.totalResults, 10);
+                this.swiper.removeAllSlides();
+              }
+
+              this.swiper.appendSlide(slides);
+
+              if (page === 1) this.swiper.slideTo(0);
 
               this.updateInfo(
                 'info',
-                `${bodySearch.totalResults} result(s) for '${searchTerm}'.`,
+                `${bodySearch.totalResults} result(s) for '${this.searchTerm}'.`,
               );
 
+              this.searching = false;
               this.spinner.classList.add('invisible');
             },
           );
@@ -153,6 +161,8 @@ export default class mainService {
       })
       .catch((err) => {
         this.updateInfo('danger', `${err}`);
+
+        this.searching = false;
         this.spinner.classList.add('invisible');
       });
   }
