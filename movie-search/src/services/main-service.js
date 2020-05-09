@@ -21,16 +21,12 @@ function preloadImages(sources, callback) {
   });
 }
 
-function updateInfo(type, msg) {
-  const infoPanel = document.getElementById('info-panel');
-  infoPanel.innerHTML = `<span class="text-${type}"><small>${msg}</small></span>`;
-}
-
 export default class mainService {
   constructor(term) {
     this.search = document.getElementById('search');
     this.clearSearch = document.getElementById('clear-search');
     this.buttonSearch = document.getElementById('button-search');
+    this.infoPanel = document.getElementById('info-panel');
     this.spinner = document.getElementById('spinner');
 
     this.omdbServiceBySearch = new OMDbService();
@@ -62,6 +58,10 @@ export default class mainService {
     this.makeSearch(term, 1);
   }
 
+  updateInfo(type, msg) {
+    this.infoPanel.innerHTML = `<span class="text-${type}"><small>${msg}</small></span>`;
+  }
+
   // TODO
   // при достижении конца слайдера/свайпера происходит загрузка следующей страницы поискового запроса
 
@@ -76,7 +76,10 @@ export default class mainService {
   makeSearch(term, page = 1) {
     if (page === 1) {
       if (term === '' || term === this.lastTerm) {
-        updateInfo('info', 'Enter new non-empty word or phrase to search.');
+        this.updateInfo(
+          'info',
+          'Enter new non-empty word or phrase to search.',
+        );
         return;
       }
     }
@@ -95,7 +98,7 @@ export default class mainService {
       .getResourceBySearch(searchTerm, page)
       .then((bodySearch) => {
         if (bodySearch.Response !== 'True') {
-          updateInfo('danger', `No results for '${searchTerm}'.`);
+          this.updateInfo('danger', `No results for '${searchTerm}'.`);
           this.spinner.classList.add('invisible');
 
           return;
@@ -138,7 +141,7 @@ export default class mainService {
               this.page = page;
               this.totalResults = parseInt(bodySearch.totalResults, 10);
 
-              updateInfo(
+              this.updateInfo(
                 'info',
                 `${bodySearch.totalResults} result(s) for '${searchTerm}'.`,
               );
@@ -149,7 +152,7 @@ export default class mainService {
         });
       })
       .catch((err) => {
-        updateInfo('danger', `${err}`);
+        this.updateInfo('danger', `${err}`);
         this.spinner.classList.add('invisible');
       });
   }
