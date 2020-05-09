@@ -24,9 +24,10 @@ export default class SwiperService {
         prevEl: '.swiper-button-prev',
       },
       pagination: {
-        clickable: true,
-        dynamicBullets: true,
+        // clickable: true,
+        // dynamicBullets: true,
         el: '.swiper-pagination',
+        type: 'fraction',
       },
       slidesPerView: 1,
       spaceBetween: 20,

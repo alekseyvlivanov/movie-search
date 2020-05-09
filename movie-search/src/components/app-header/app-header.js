@@ -8,7 +8,7 @@ export default class AppHeader {
 
     const appTitle = document.createElement('h1');
     appTitle.className = 'font-weight-bolder';
-    appTitle.textContent = 'Movie Search [WIP]';
+    appTitle.textContent = 'Movie Search';
 
     appHeader.append(appTitle);
 
