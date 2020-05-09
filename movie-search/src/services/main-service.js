@@ -96,6 +96,8 @@ export default class mainService {
       .then((bodySearch) => {
         if (bodySearch.Response !== 'True') {
           updateInfo('danger', `No results for '${searchTerm}'.`);
+          this.spinner.classList.add('invisible');
+
           return;
         }
 
