@@ -13,11 +13,18 @@
 }
 
 .card-img {
+  flex: 1 1 auto;
+  text-align: center;
   overflow: hidden;
 }
 
 .card-img img {
-  height: 300px;
+  background-clip: border-box;
+  background-origin: border-box;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
   width: 100%;
   transition: transform 0.5s ease;
 }

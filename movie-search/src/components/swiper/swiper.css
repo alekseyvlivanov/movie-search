@@ -3,9 +3,7 @@
 }
 
 .swiper-container {
-  height: 100%;
   width: 90%;
-  /* padding-top: 2rem; */
   padding-bottom: 2rem;
 }
 
@@ -15,4 +13,8 @@
 
 .swiper-button-next {
   right: -1rem;
+}
+
+.swiper-slide {
+  height: auto;
 }

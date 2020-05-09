@@ -20,7 +20,7 @@ export default class Slide {
     slide.className = 'swiper-slide';
 
     const card = document.createElement('div');
-    card.className = 'card';
+    card.className = 'card h-100';
 
     const cardHeader = document.createElement('a');
     cardHeader.className = 'text-reset';

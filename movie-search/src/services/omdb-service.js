@@ -16,8 +16,11 @@ export default class OMDbService {
     return body;
   }
 
-  async getResourceBySearch(term) {
-    const res = await fetch(`${this.apiBase}/?apikey=${this.apiKey}&s=${term}`);
+  async getResourceBySearch(term, page = 1) {
+    let url = `${this.apiBase}/?apikey=${this.apiKey}&s=${term}`;
+    if (page > 1) url += `&page=${page}`;
+
+    const res = await fetch(url);
 
     if (!res.ok) {
       throw new Error(`Could not fetch ${term}, received ${res.status}`);

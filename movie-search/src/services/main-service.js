@@ -3,11 +3,6 @@ import Slide from '../components/slide';
 import OMDbService from './omdb-service';
 import SwiperService from './swiper-service';
 
-function updateInfo(type, msg) {
-  const infoPanel = document.getElementById('info-panel');
-  infoPanel.innerHTML = `<span class="text-${type}"><small>${msg}</small></span>`;
-}
-
 function preloadImages(sources, callback) {
   let counter = 0;
 
@@ -26,21 +21,45 @@ function preloadImages(sources, callback) {
   });
 }
 
+function updateInfo(type, msg) {
+  const infoPanel = document.getElementById('info-panel');
+  infoPanel.innerHTML = `<span class="text-${type}"><small>${msg}</small></span>`;
+}
+
 export default class mainService {
   constructor(term) {
     this.search = document.getElementById('search');
     this.clearSearch = document.getElementById('clear-search');
     this.buttonSearch = document.getElementById('button-search');
     this.spinner = document.getElementById('spinner');
-    this.swiperContainer = document.getElementById('swiper-container');
 
     this.omdbServiceBySearch = new OMDbService();
     this.omdbServiceById = new OMDbService();
-    this.swiperService = new SwiperService(this.swiperContainer);
 
     this.lastTerm = '';
+    this.page = 0;
+    this.totalResults = 0;
 
-    this.makeSearch(term);
+    const swiperService = new SwiperService(
+      document.getElementById('swiper-container'),
+    );
+    this.swiper = swiperService.swiper;
+
+    this.swiper.on('reachEnd', () => {
+      window.console.log('reachEnd:', this.swiper.slides.length);
+      window.console.log('totalResults:', this.totalResults);
+      window.console.log('page:', this.page);
+      window.console.log('-----');
+
+      // debugger;
+      // if (this.swiper.slides.length < this.totalResults) {
+      //   window.console.log(
+      //     `make search for '${this.lastTerm}' and page ${this.page + 1}`,
+      //   );
+      // }
+    });
+
+    this.makeSearch(term, 1);
   }
 
   // TODO
@@ -54,10 +73,12 @@ export default class mainService {
   // поисковый запрос можно отправить, кликая мышкой по кнопке Enter на виртуальной клавиатуре.
   // Поисковый запрос можно редактировать при помощи виртуальной клавиатуры перемещаясь стрелками вправо-влево и вводя текст на позицию курсора
 
-  makeSearch(term) {
-    if (term === '' || term === this.lastTerm) {
-      updateInfo('info', 'Enter new non-empty word or phrase to search.');
-      return;
+  makeSearch(term, page = 1) {
+    if (page === 1) {
+      if (term === '' || term === this.lastTerm) {
+        updateInfo('info', 'Enter new non-empty word or phrase to search.');
+        return;
+      }
     }
 
     this.lastTerm = term;
@@ -66,13 +87,15 @@ export default class mainService {
     // при вводе запроса на русском языке поисковый запрос переводится на английский язык,
     // выводится уведомление "Showing results for ..."
 
+    const searchTerm = term;
+
     this.spinner.classList.remove('invisible');
 
     this.omdbServiceBySearch
-      .getResourceBySearch(term)
+      .getResourceBySearch(searchTerm, page)
       .then((bodySearch) => {
         if (bodySearch.Response !== 'True') {
-          updateInfo('danger', `No results for '${term}'.`);
+          updateInfo('danger', `No results for '${searchTerm}'.`);
           return;
         }
 
@@ -91,9 +114,9 @@ export default class mainService {
           ),
         ).then((items) => {
           preloadImages(
-            items.map((e) => e.Poster),
+            items.map((e) => (e.Poster === 'N/A' ? '' : e.Poster)),
             () => {
-              const arr = new Array(this.swiperService.swiper.slides.length);
+              const arr = new Array(this.swiper.slides.length);
 
               items.forEach((item) => {
                 const slide = new Slide(
@@ -104,17 +127,18 @@ export default class mainService {
                   item.Year,
                   item.imdbRating,
                 );
-                this.swiperService.swiper.appendSlide(slide.render());
+                this.swiper.appendSlide(slide.render());
               });
 
-              this.swiperService.swiper.removeSlide(
-                arr.fill(0).map((_, idx) => idx),
-              );
-              this.swiperService.swiper.slideTo(0);
+              this.swiper.removeSlide(arr.fill(0).map((_, idx) => idx));
+              this.swiper.slideTo(0);
+
+              this.page = page;
+              this.totalResults = parseInt(bodySearch.totalResults, 10);
 
               updateInfo(
                 'info',
-                `${bodySearch.totalResults} result(s) for '${term}'.`,
+                `${bodySearch.totalResults} result(s) for '${searchTerm}'.`,
               );
 
               this.spinner.classList.add('invisible');
@@ -132,7 +156,7 @@ export default class mainService {
     this.search.addEventListener('keyup', (e) => {
       if (e.code === 'Enter') {
         this.search.value = this.search.value.trim();
-        this.makeSearch(this.search.value);
+        this.makeSearch(this.search.value, 1);
         this.search.focus();
       }
     });
@@ -144,7 +168,7 @@ export default class mainService {
 
     this.buttonSearch.addEventListener('click', () => {
       this.search.value = this.search.value.trim();
-      this.makeSearch(this.search.value);
+      this.makeSearch(this.search.value, 1);
       this.search.focus();
     });
   }
