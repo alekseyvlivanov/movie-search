@@ -2,6 +2,7 @@ import Slide from '../components/slide';
 
 import OMDbService from './omdb-service';
 import SwiperService from './swiper-service';
+import TranslateService from './translate-service';
 
 function preloadImages(sources, callback) {
   let counter = 0;
@@ -23,14 +24,16 @@ function preloadImages(sources, callback) {
 
 export default class mainService {
   constructor(term) {
+    this.buttonKeyboard = document.getElementById('button-keyboard');
     this.search = document.getElementById('search');
     this.clearSearch = document.getElementById('clear-search');
     this.buttonSearch = document.getElementById('button-search');
     this.infoPanel = document.getElementById('info-panel');
     this.spinner = document.getElementById('spinner');
 
-    this.omdbServiceBySearch = new OMDbService();
     this.omdbServiceById = new OMDbService();
+    this.omdbServiceBySearch = new OMDbService();
+    this.translateService = new TranslateService();
 
     this.lastTerm = '';
     this.searchTerm = '';
@@ -85,89 +88,102 @@ export default class mainService {
     this.searching = true;
     this.spinner.classList.remove('invisible');
 
-    // if (page > 1) debugger;
-
-    // TODO
-    // при вводе запроса на русском языке поисковый запрос переводится на английский язык,
-    // выводится уведомление "Showing results for ..."
-
-    this.searchTerm = term;
-
-    this.omdbServiceBySearch
-      .getResourceBySearch(this.searchTerm, page)
-      .then((bodySearch) => {
-        if (bodySearch.Response !== 'True') {
-          if (page === 1) {
-            this.updateInfo('danger', `No results for '${this.searchTerm}'.`);
-          }
-
-          this.searching = false;
-          this.spinner.classList.add('invisible');
-
-          return;
-        }
-
-        Promise.all(
-          bodySearch.Search.map((e) =>
-            this.omdbServiceById.getResourceById(e.imdbID).then((bodyID) => {
-              return {
-                imdbID: e.imdbID,
-                Title: e.Title,
-                Type: e.Type,
-                Poster: e.Poster,
-                Year: e.Year,
-                imdbRating: bodyID.imdbRating,
-              };
-            }),
-          ),
-        ).then((items) => {
-          preloadImages(
-            items.map((e) => (e.Poster === 'N/A' ? '' : e.Poster)),
-            () => {
-              const slides = items.map((item) => {
-                const slide = new Slide(
-                  item.imdbID,
-                  item.Title,
-                  item.Type,
-                  item.Poster,
-                  item.Year,
-                  item.imdbRating,
-                );
-                return slide.render();
-              });
-
-              this.lastTerm = term;
-              this.page = page;
-
+    // translate if needed
+    this.translateService
+      .translate(term)
+      .then((translatedTerm) => {
+        this.searchTerm = translatedTerm;
+      })
+      .catch((err) => {
+        window.console.log('Yandex Translate:', err);
+        this.searchTerm = term;
+      })
+      .finally(() => {
+        this.omdbServiceBySearch
+          .getResourceBySearch(this.searchTerm, page)
+          .then((bodySearch) => {
+            if (bodySearch.Response !== 'True') {
               if (page === 1) {
-                this.totalResults = parseInt(bodySearch.totalResults, 10);
-                this.swiper.removeAllSlides();
+                this.updateInfo(
+                  'danger',
+                  `No results for '${this.searchTerm}'.`,
+                );
               }
-
-              this.swiper.appendSlide(slides);
-
-              if (page === 1) this.swiper.slideTo(0);
-
-              this.updateInfo(
-                'info',
-                `${bodySearch.totalResults} result(s) for '${this.searchTerm}'.`,
-              );
 
               this.searching = false;
               this.spinner.classList.add('invisible');
-            },
-          );
-        });
-      })
-      .catch((err) => {
-        this.updateInfo('danger', `${err}`);
 
-        this.searching = false;
-        this.spinner.classList.add('invisible');
+              return;
+            }
+
+            Promise.all(
+              bodySearch.Search.map((e) =>
+                this.omdbServiceById
+                  .getResourceById(e.imdbID)
+                  .then((bodyID) => {
+                    return {
+                      imdbID: e.imdbID,
+                      Title: e.Title,
+                      Type: e.Type,
+                      Poster: e.Poster,
+                      Year: e.Year,
+                      imdbRating: bodyID.imdbRating,
+                    };
+                  }),
+              ),
+            ).then((items) => {
+              preloadImages(
+                items.map((e) => (e.Poster === 'N/A' ? '' : e.Poster)),
+                () => {
+                  const slides = items.map((item) => {
+                    const slide = new Slide(
+                      item.imdbID,
+                      item.Title,
+                      item.Type,
+                      item.Poster,
+                      item.Year,
+                      item.imdbRating,
+                    );
+                    return slide.render();
+                  });
+
+                  this.lastTerm = term;
+                  this.page = page;
+
+                  if (page === 1) {
+                    this.totalResults = parseInt(bodySearch.totalResults, 10);
+                    this.swiper.removeAllSlides();
+                  }
+
+                  this.swiper.appendSlide(slides);
+
+                  if (page === 1) this.swiper.slideTo(0);
+
+                  this.updateInfo(
+                    'info',
+                    `${bodySearch.totalResults} result(s) for '${this.searchTerm}'.`,
+                  );
+
+                  this.searching = false;
+                  this.spinner.classList.add('invisible');
+                },
+              );
+            });
+          })
+          .catch((err) => {
+            this.updateInfo('danger', `${err}`);
+
+            this.searching = false;
+            this.spinner.classList.add('invisible');
+          });
       });
   }
 
   addListeners() {
+    this.buttonKeyboard.addEventListener('click', () => {
+      this.updateInfo('info', 'Not implemented yet.');
+    });
+
     this.search.addEventListener('keyup', (e) => {
       if (e.code === 'Enter') {
         this.search.value = this.search.value.trim();

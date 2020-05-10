@@ -18,3 +18,7 @@
 .swiper-slide {
   height: auto;
 }
+
+.swiper-pagination-fraction {
+  bottom: 0;
+}
