@@ -1,4 +1,5 @@
 import AppHeader from '../app-header';
+import VirtualKeyboard from '../virtual-keyboard';
 import SearchPanel from '../search-panel';
 import InfoPanel from '../info-panel';
 import Spinner from '../spinner';
@@ -18,6 +19,7 @@ export default class App {
     appMain.append(SearchPanel.render(term));
     appMain.append(InfoPanel.render());
     appMain.append(Spinner.render());
+    appMain.append(VirtualKeyboard.render());
     appMain.append(Swiper.render());
 
     movieSearch.append(AppHeader.render());

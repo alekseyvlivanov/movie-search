@@ -24,6 +24,7 @@ function preloadImages(sources, callback) {
 
 export default class mainService {
   constructor(term) {
+    this.virtualKeyboard = document.getElementById('keyboard-wrapper');
     this.buttonKeyboard = document.getElementById('button-keyboard');
     this.search = document.getElementById('search');
     this.clearSearch = document.getElementById('clear-search');
@@ -106,7 +107,7 @@ export default class mainService {
               if (page === 1) {
                 this.updateInfo(
                   'danger',
-                  `No results for '${this.searchTerm}'.`,
+                  `No results were found for '${this.searchTerm}'.`,
                 );
               }
 
@@ -161,7 +162,7 @@ export default class mainService {
 
                   this.updateInfo(
                     'info',
-                    `${bodySearch.totalResults} result(s) for '${this.searchTerm}'.`,
+                    `Showing results for '${this.searchTerm}' - ${this.swiper.slides.length} of ${bodySearch.totalResults}.`,
                   );
 
                   this.searching = false;
@@ -181,7 +182,7 @@ export default class mainService {
 
   addListeners() {
     this.buttonKeyboard.addEventListener('click', () => {
-      this.updateInfo('info', 'Not implemented yet.');
+      this.virtualKeyboard.classList.toggle('hidden');
     });
 
     this.search.addEventListener('keyup', (e) => {
