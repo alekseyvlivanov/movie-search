@@ -1,8 +1,8 @@
 import AppHeader from '../app-header';
-import VirtualKeyboard from '../virtual-keyboard';
 import SearchPanel from '../search-panel';
 import InfoPanel from '../info-panel';
 import Spinner from '../spinner';
+import VirtualKeyboard from '../virtual-keyboard';
 import Swiper from '../swiper';
 import AppFooter from '../app-footer';
 

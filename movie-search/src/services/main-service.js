@@ -1,4 +1,5 @@
 import Slide from '../components/slide';
+import VirtualKeyboard from '../components/virtual-keyboard';
 
 import OMDbService from './omdb-service';
 import SwiperService from './swiper-service';
@@ -24,7 +25,7 @@ function preloadImages(sources, callback) {
 
 export default class mainService {
   constructor(term) {
-    this.virtualKeyboard = document.getElementById('keyboard-wrapper');
+    this.keyboardWrapper = document.getElementById('keyboard-wrapper');
     this.buttonKeyboard = document.getElementById('button-keyboard');
     this.search = document.getElementById('search');
     this.clearSearch = document.getElementById('clear-search');
@@ -35,6 +36,7 @@ export default class mainService {
     this.omdbServiceById = new OMDbService();
     this.omdbServiceBySearch = new OMDbService();
     this.translateService = new TranslateService();
+    this.virtualKeyboard = new VirtualKeyboard(this.search);
 
     this.lastTerm = '';
     this.searchTerm = '';
@@ -63,14 +65,6 @@ export default class mainService {
   updateInfo(type, msg) {
     this.infoPanel.innerHTML = `<span class="text-${type}"><small>${msg}</small></span>`;
   }
-
-  // TODO
-  // поисковый запрос можно набирать на виртуальной клавиатуре.
-  // Есть возможность переключения языка клавиатуры кликом мышки
-
-  // TODO
-  // поисковый запрос можно отправить, кликая мышкой по кнопке Enter на виртуальной клавиатуре.
-  // Поисковый запрос можно редактировать при помощи виртуальной клавиатуры перемещаясь стрелками вправо-влево и вводя текст на позицию курсора
 
   makeSearch(term, page = 1) {
     if (page === 1) {
@@ -182,7 +176,8 @@ export default class mainService {
 
   addListeners() {
     this.buttonKeyboard.addEventListener('click', () => {
-      this.virtualKeyboard.classList.toggle('hidden');
+      this.keyboardWrapper.classList.toggle('hidden');
+      this.search.focus();
     });
 
     this.search.addEventListener('keyup', (e) => {
@@ -203,5 +198,7 @@ export default class mainService {
       this.makeSearch(this.search.value, 1);
       this.search.focus();
     });
+
+    this.virtualKeyboard.addListeners();
   }
 }
