@@ -84,30 +84,67 @@ export default class VirtualKeyboard {
 
     Array.from(document.querySelectorAll('.keyboard__key')).forEach((e) => {
       if (!this.keyboardKeys[e.id].func) {
-        if (e.id === 'Minus') {
-          e.textContent = this.caps ? '_' : '-';
-        } else if (e.id === 'Plus') {
-          e.textContent = this.caps ? '=' : '+';
-        } else if (e.id === 'BracketLeft' && this.lang === 'en') {
-          e.textContent = this.caps ? '{' : '[';
-        } else if (e.id === 'BracketRight' && this.lang === 'en') {
-          e.textContent = this.caps ? '}' : ']';
-        } else if (e.id === 'Semicolon' && this.lang === 'en') {
-          e.textContent = this.caps ? ':' : ';';
-        } else if (e.id === 'Quote' && this.lang === 'en') {
-          e.textContent = this.caps ? '"' : "'";
-        } else if (e.id === 'Question' && this.lang === 'en') {
-          e.textContent = this.caps ? '\\' : '?';
-        } else if (e.id === 'Comma' && this.lang === 'en') {
-          e.textContent = this.caps ? '<' : ',';
-        } else if (e.id === 'Period' && this.lang === 'en') {
-          e.textContent = this.caps ? '>' : '.';
-        } else if (e.id === 'Slash' && this.lang === 'en') {
-          e.textContent = this.caps ? '?' : '/';
-        } else if (e.id === 'Slash' && this.lang === 'ru') {
-          e.textContent = this.caps ? ',' : '.';
-        } else {
-          e.textContent = e.textContent[toCase]();
+        switch (e.id) {
+          case 'Minus':
+            e.textContent = this.caps ? '_' : '-';
+            break;
+
+          case 'Plus':
+            e.textContent = this.caps ? '=' : '+';
+            break;
+
+          case 'BracketLeft':
+            if (this.lang === 'en') {
+              e.textContent = this.caps ? '{' : '[';
+            }
+            break;
+
+          case 'BracketRight':
+            if (this.lang === 'en') {
+              e.textContent = this.caps ? '}' : ']';
+            }
+            break;
+
+          case 'Semicolon':
+            if (this.lang === 'en') {
+              e.textContent = this.caps ? ':' : ';';
+            }
+            break;
+
+          case 'Quote':
+            if (this.lang === 'en') {
+              e.textContent = this.caps ? '"' : "'";
+            }
+            break;
+
+          case 'Question':
+            if (this.lang === 'en') {
+              e.textContent = this.caps ? '\\' : '?';
+            }
+            break;
+
+          case 'Comma':
+            if (this.lang === 'en') {
+              e.textContent = this.caps ? '<' : ',';
+            }
+            break;
+
+          case 'Period':
+            if (this.lang === 'en') {
+              e.textContent = this.caps ? '>' : '.';
+            }
+            break;
+
+          case 'Slash':
+            if (this.lang === 'en') {
+              e.textContent = this.caps ? '?' : '/';
+            } else {
+              e.textContent = this.caps ? ',' : '.';
+            }
+            break;
+
+          default:
+            e.textContent = e.textContent[toCase]();
         }
       }
     });
