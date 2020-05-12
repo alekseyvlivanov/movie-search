@@ -1,12 +1,17 @@
 export default class OMDbService {
   constructor() {
     this.apiBase = 'https://www.omdbapi.com';
-    // this.apiKey = '4a3b711b';
-    this.apiKey = 'e9d81adf';
+    this.apiKeys = ['4a3b711b', 'e9d81adf'];
   }
 
   async getResourceById(term) {
-    const res = await fetch(`${this.apiBase}/?apikey=${this.apiKey}&i=${term}`);
+    const res = await fetch(
+      encodeURI(
+        `${this.apiBase}/?apikey=${
+          this.apiKeys[Math.round(Math.random())]
+        }&i=${term}`,
+      ),
+    );
 
     if (!res.ok) {
       throw new Error(`Could not fetch ${term}, received ${res.status}`);
@@ -18,10 +23,12 @@ export default class OMDbService {
   }
 
   async getResourceBySearch(term, page = 1) {
-    let url = `${this.apiBase}/?apikey=${this.apiKey}&s=${term}`;
+    let url = `${this.apiBase}/?apikey=${
+      this.apiKeys[Math.round(Math.random())]
+    }&s=${term}`;
     if (page > 1) url += `&page=${page}`;
 
-    const res = await fetch(url);
+    const res = await fetch(encodeURI(url));
 
     if (!res.ok) {
       throw new Error(`Could not fetch ${term}, received ${res.status}`);

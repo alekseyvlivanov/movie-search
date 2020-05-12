@@ -8,10 +8,10 @@ export default class TranslateService {
 
   async translate(term) {
     if (this.ruRegExp.test(term)) {
-      // window.console.log('russian detected:', term);
-
       const res = await fetch(
-        `${this.apiBase}/translate?key=${this.apiKey}&text=${term}&lang=ru-en`,
+        encodeURI(
+          `${this.apiBase}/translate?key=${this.apiKey}&text=${term}&lang=ru-en`,
+        ),
       );
 
       if (!res.ok) {
@@ -19,8 +19,6 @@ export default class TranslateService {
       }
 
       const body = await res.json();
-
-      // window.console.log('translation:', body);
 
       return body.text[0];
     }
