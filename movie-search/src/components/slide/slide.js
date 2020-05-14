@@ -1,3 +1,5 @@
+import utils from '../../utils';
+
 import './slide.css';
 import noposter from './no_poster.png';
 
@@ -16,14 +18,10 @@ export default class Slide {
       this.src = noposter;
     }
 
-    const slide = document.createElement('div');
-    slide.className = 'swiper-slide';
+    const slide = utils.createElement('div', 'swiper-slide');
+    const card = utils.createElement('div', 'card h-100');
 
-    const card = document.createElement('div');
-    card.className = 'card h-100';
-
-    const cardHeader = document.createElement('a');
-    cardHeader.className = 'text-reset';
+    const cardHeader = utils.createElement('a', 'text-reset');
     cardHeader.href = `https://www.imdb.com/title/${this.id}/videogallery/`;
     cardHeader.target = '_blank';
     cardHeader.innerHTML = `
@@ -32,16 +30,14 @@ export default class Slide {
     </h6>
     `;
 
-    const cardBody = document.createElement('div');
-    cardBody.className = 'card-img';
+    const cardBody = utils.createElement('div', 'card-img');
 
-    const cardImage = document.createElement('img');
+    const cardImage = utils.createElement('img', 'slide-image');
     cardImage.alt = 'movie title';
     cardImage.onerror = onError;
     cardImage.src = this.poster;
 
-    const cardFooter = document.createElement('div');
-    cardFooter.className = 'card-footer';
+    const cardFooter = utils.createElement('div', 'card-footer');
     cardFooter.innerHTML = `
     <span>${this.year}</span>
     <span><i class="fa fa-star" aria-hidden="true"></i> ${this.rating}</span>

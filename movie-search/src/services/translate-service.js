@@ -1,8 +1,7 @@
 export default class TranslateService {
-  constructor() {
-    this.apiBase = 'https://translate.yandex.net/api/v1.5/tr.json';
-    this.apiKey =
-      'trnsl.1.1.20200509T161541Z.bad99bebb7e002e7.dea9956eed43cfc34a8158a12fab46611314a3ac';
+  constructor(data) {
+    this.apiBase = data.apiBase;
+    this.apiKey = data.apiKey;
     this.ruRegExp = /[А-Яа-я]+/g;
   }
 

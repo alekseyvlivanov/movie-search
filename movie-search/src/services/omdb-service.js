@@ -1,7 +1,7 @@
 export default class OMDbService {
-  constructor() {
-    this.apiBase = 'https://www.omdbapi.com';
-    this.apiKeys = ['4a3b711b', 'e9d81adf'];
+  constructor(data) {
+    this.apiBase = data.apiBase;
+    this.apiKeys = data.apiKeys;
   }
 
   async getResourceById(term) {

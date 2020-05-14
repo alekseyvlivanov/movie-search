@@ -1,13 +1,16 @@
+import utils from '../../utils';
+
 import './app-header.css';
 
 export default class AppHeader {
   static render() {
-    const appHeader = document.createElement('header');
-    appHeader.className =
-      'header navbar navbar-dark text-light bg-dark justify-content-center';
+    const appHeader = utils.createElement(
+      'header',
+      'header navbar navbar-dark text-light bg-dark justify-content-center',
+    );
 
-    const appTitle = document.createElement('h1');
-    appTitle.className = 'font-weight-bolder';
+    const appTitle = utils.createElement('h1', 'font-weight-bolder');
+
     appTitle.textContent = 'Movie Search';
 
     appHeader.append(appTitle);

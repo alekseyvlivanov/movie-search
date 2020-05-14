@@ -1,3 +1,5 @@
+import utils from '../../utils';
+
 import keyboardLayout from './keyboard-layout';
 
 import './virtual-keyboard.css';
@@ -19,23 +21,25 @@ export default class VirtualKeyboard {
   }
 
   static render() {
-    const keyboardWrapper = document.createElement('div');
-    keyboardWrapper.className = 'keyboard-wrapper hidden pb-3';
+    const keyboardWrapper = utils.createElement(
+      'div',
+      'keyboard-wrapper hidden pb-3',
+    );
     keyboardWrapper.id = 'keyboard-wrapper';
 
-    const keyboard = document.createElement('div');
-    keyboard.className = 'keyboard';
+    const keyboard = utils.createElement('div', 'keyboard');
     keyboard.id = 'keyboard';
 
     keyboardLayout.forEach((line) => {
-      const keyboardRow = document.createElement('div');
-      keyboardRow.className = 'keyboard__row';
+      const keyboardRow = utils.createElement('div', 'keyboard__row');
 
       line.forEach((key) => {
-        const keyElement = document.createElement('button');
+        const keyElement = utils.createElement(
+          'button',
+          `keyboard__key keyboard__key_${key.width}`,
+        );
         keyElement.id = key.code;
         keyElement.type = 'button';
-        keyElement.className = `keyboard__key keyboard__key_${key.width}`;
 
         keyElement.textContent = key.lang.en;
         keyboardRow.append(keyElement);

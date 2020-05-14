@@ -1,10 +1,13 @@
+import utils from '../../utils';
+
 import './app-footer.css';
 
 export default class AppFooter {
   static render() {
-    const appFooter = document.createElement('footer');
-    appFooter.className =
-      'footer navbar navbar-dark text-light bg-dark justify-content-around';
+    const appFooter = utils.createElement(
+      'footer',
+      'footer navbar navbar-dark text-light bg-dark justify-content-around',
+    );
 
     appFooter.innerHTML = `
     <a class="nav-link" href="https://rs.school" target="_blank" title="The Rolling Scopes School"><span aria-hidden="true">RS School 2020q1</span></a>

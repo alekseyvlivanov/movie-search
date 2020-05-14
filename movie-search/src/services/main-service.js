@@ -4,6 +4,7 @@ import VirtualKeyboard from '../components/virtual-keyboard';
 import OMDbService from './omdb-service';
 import SwiperService from './swiper-service';
 import TranslateService from './translate-service';
+import APIDATA from './api-data';
 
 function preloadImages(sources, callback) {
   let counter = 0;
@@ -33,9 +34,9 @@ export default class mainService {
     this.infoPanel = document.getElementById('info-panel');
     this.spinner = document.getElementById('spinner');
 
-    this.omdbServiceById = new OMDbService();
-    this.omdbServiceBySearch = new OMDbService();
-    this.translateService = new TranslateService();
+    this.omdbServiceById = new OMDbService(APIDATA.OMDb);
+    this.omdbServiceBySearch = new OMDbService(APIDATA.OMDb);
+    this.translateService = new TranslateService(APIDATA.Yandex);
     this.virtualKeyboard = new VirtualKeyboard(this.search);
 
     this.lastTerm = '';
@@ -58,10 +59,6 @@ export default class mainService {
     this.makeSearch(term, 1);
   }
 
-  clearInfo() {
-    this.infoPanel.innerHTML = '';
-  }
-
   updateInfo(type, msg) {
     this.infoPanel.innerHTML = `<span class="text-${type}"><small>${msg}</small></span>`;
   }
@@ -79,7 +76,6 @@ export default class mainService {
 
     if (this.searching) return;
 
-    this.clearInfo();
     this.searching = true;
     this.spinner.classList.remove('invisible');
 

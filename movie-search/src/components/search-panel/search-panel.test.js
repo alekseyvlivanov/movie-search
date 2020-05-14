@@ -11,5 +11,6 @@ describe('SearchPanel', () => {
     expect(searchPanel).toBeInstanceOf(Element);
     expect(searchPanel.innerHTML).toMatch(/id="search"/);
     expect(searchPanel.innerHTML).toMatch(/placeholder="Search OMDb"/);
+    expect(searchPanel.innerHTML).toMatch(/id="spinner"/);
   });
 });

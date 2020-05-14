@@ -1,6 +1,7 @@
-import TranslateService from './translate-service';
-
 import fetch from 'node-fetch';
+
+import TranslateService from './translate-service';
+import APIDATA from './api-data';
 
 if (!globalThis.fetch) {
   globalThis.fetch = fetch;
@@ -9,7 +10,7 @@ if (!globalThis.fetch) {
 describe('TranslateService', () => {
   let translateService;
   beforeEach(() => {
-    translateService = new TranslateService();
+    translateService = new TranslateService(APIDATA.Yandex);
   });
 
   it('should return correctly translated phrase', async () => {

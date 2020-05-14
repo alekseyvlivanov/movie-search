@@ -1,6 +1,7 @@
-import OMDbService from './omdb-service';
-
 import fetch from 'node-fetch';
+
+import OMDbService from './omdb-service';
+import APIDATA from './api-data';
 
 if (!globalThis.fetch) {
   globalThis.fetch = fetch;
@@ -9,7 +10,7 @@ if (!globalThis.fetch) {
 describe('OMDbService', () => {
   let omdbService;
   beforeEach(() => {
-    omdbService = new OMDbService();
+    omdbService = new OMDbService(APIDATA.OMDb);
   });
 
   it('should return IMDb data', async () => {

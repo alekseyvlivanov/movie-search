@@ -1,18 +1,17 @@
+import utils from '../../utils';
+
 import './search-panel.css';
 
 export default class SearchPanel {
   static render(term = '') {
-    const searchPanel = document.createElement('div');
-    searchPanel.className = 'search-panel input-group';
+    const searchPanel = utils.createElement('div', 'search-panel input-group');
 
-    const keyboard = document.createElement('i');
-    keyboard.className = 'fa fa-keyboard-o fa-lg';
+    const keyboard = utils.createElement('i', 'fa fa-keyboard-o fa-lg');
     keyboard.id = 'button-keyboard';
     keyboard.title = 'Virtual keyboard';
     keyboard.setAttribute('aria-hidden', 'true');
 
-    const input = document.createElement('input');
-    input.className = 'form-control';
+    const input = utils.createElement('input', 'form-control');
     input.autocomplete = 'off';
     input.autofocus = true;
     input.id = 'search';
@@ -21,20 +20,29 @@ export default class SearchPanel {
     input.type = 'text';
     input.value = term;
 
-    const clear = document.createElement('i');
-    clear.className = 'fa fa-times fa-xs';
+    const spinner = utils.createElement(
+      'div',
+      'spinner d-flex justify-content-center invisible',
+    );
+    spinner.id = 'spinner';
+    spinner.innerHTML = `
+    <i class="fa fa-refresh fa-spin fa-2x fa-fw"></i>
+    <span class="sr-only">Loading...</span>
+    `;
+
+    const clear = utils.createElement('i', 'fa fa-times fa-xs');
     clear.id = 'clear-search';
     clear.title = 'Clear';
     clear.setAttribute('aria-hidden', 'true');
 
-    const search = document.createElement('i');
-    search.className = 'fa fa-search fa-lg';
+    const search = utils.createElement('i', 'fa fa-search fa-lg');
     search.id = 'button-search';
     search.title = 'Search';
     search.setAttribute('aria-hidden', 'true');
 
     searchPanel.append(keyboard);
     searchPanel.append(input);
+    searchPanel.append(spinner);
     searchPanel.append(clear);
     searchPanel.append(search);
 
