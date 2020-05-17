@@ -108,8 +108,8 @@ export default class mainService {
             }
 
             Promise.all(
-              bodySearch.Search.map((e) =>
-                this.omdbServiceById
+              bodySearch.Search.map((e) => {
+                return this.omdbServiceById
                   .getResourceById(e.imdbID)
                   .then((bodyID) => {
                     return {
@@ -120,46 +120,53 @@ export default class mainService {
                       Year: e.Year,
                       imdbRating: bodyID.imdbRating,
                     };
-                  }),
-              ),
-            ).then((items) => {
-              preloadImages(
-                items.map((e) => (e.Poster === 'N/A' ? '' : e.Poster)),
-                () => {
-                  const slides = items.map((item) => {
-                    const slide = new Slide(
-                      item.imdbID,
-                      item.Title,
-                      item.Type,
-                      item.Poster,
-                      item.Year,
-                      item.imdbRating,
-                    );
-                    return slide.render();
                   });
+              }),
+            )
+              .then((items) => {
+                preloadImages(
+                  items.map((e) => (e.Poster === 'N/A' ? '' : e.Poster)),
+                  () => {
+                    const slides = items.map((item) => {
+                      const slide = new Slide(
+                        item.imdbID,
+                        item.Title,
+                        item.Type,
+                        item.Poster,
+                        item.Year,
+                        item.imdbRating,
+                      );
+                      return slide.render();
+                    });
 
-                  this.lastTerm = term;
-                  this.page = page;
+                    this.lastTerm = term;
+                    this.page = page;
 
-                  if (page === 1) {
-                    this.totalResults = parseInt(bodySearch.totalResults, 10);
-                    this.swiper.removeAllSlides();
-                  }
+                    if (page === 1) {
+                      this.totalResults = parseInt(bodySearch.totalResults, 10);
+                      this.swiper.removeAllSlides();
+                    }
 
-                  this.swiper.appendSlide(slides);
+                    this.swiper.appendSlide(slides);
 
-                  if (page === 1) this.swiper.slideTo(0);
+                    if (page === 1) this.swiper.slideTo(0);
 
-                  this.updateInfo(
-                    'info',
-                    `Showing results for '${this.searchTerm}' - ${this.swiper.slides.length} of ${bodySearch.totalResults}.`,
-                  );
+                    this.updateInfo(
+                      'info',
+                      `Showing results for '${this.searchTerm}' - ${this.swiper.slides.length} of ${bodySearch.totalResults}.`,
+                    );
 
-                  this.searching = false;
-                  this.spinner.classList.add('invisible');
-                },
-              );
-            });
+                    this.searching = false;
+                    this.spinner.classList.add('invisible');
+                  },
+                );
+              })
+              .catch((err) => {
+                this.updateInfo('danger', `${err}`);
+
+                this.searching = false;
+                this.spinner.classList.add('invisible');
+              });
           })
           .catch((err) => {
             this.updateInfo('danger', `${err}`);
