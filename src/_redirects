@@ -1,0 +1,6 @@
+# Netlify redirects
+
+https://movie-search-chessiah.netlify.app/* https://movie-search.chessiah.com/:splat 301!
+http://movie-search-chessiah.netlify.app/* https://movie-search.chessiah.com/:splat 301!
+
+http://movie-search.chessiah.com/* https://movie-search.chessiah.com/:splat 301!

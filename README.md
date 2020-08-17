@@ -1,10 +1,16 @@
-# MovieSearch
+# Movie Search
 
 | Deadline         | Folder name  | Branch name  |
 | ---------------- | ------------ | ------------ |
 | 10.05.2020 23:59 | movie-search | movie-search |
 
-**MovieSearch** - одностраничное приложение, отображающее информацию о фильмах по запросу пользователя.  
+[![Netlify Status](https://api.netlify.com/api/v1/badges/6183b9d3-41d1-4ee8-a056-109f3c31eff3/deploy-status)](https://app.netlify.com/sites/movie-search-chessiah/deploys)
+
+You can see this project in action:
+
+- Netlify - <https://movie-search.chessiah.com>
+
+**Movie Search** - одностраничное приложение, отображающее информацию о фильмах по запросу пользователя.  
 Для получения информации используется OMDb RESTful API.
 
 ## Структура приложения
