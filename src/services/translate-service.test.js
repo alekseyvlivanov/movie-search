@@ -10,14 +10,14 @@ if (!globalThis.fetch) {
 describe('TranslateService', () => {
   let translateService;
   beforeEach(() => {
-    translateService = new TranslateService(APIDATA.Yandex);
+    translateService = new TranslateService(APIDATA.MultiTranslate, false);
   });
 
   it('should return correctly translated phrase', async () => {
     expect(translateService.translate).toBeDefined();
     expect(translateService.translate).toBeInstanceOf(Function);
 
-    const res = await translateService.translate('День сурка');
-    expect(res).toEqual('Groundhog day');
+    const res = await translateService.translate('день сурка');
+    expect(res).toEqual('groundhog day');
   });
 });

@@ -36,7 +36,7 @@ export default class mainService {
 
     this.omdbServiceById = new OMDbService(APIDATA.OMDb);
     this.omdbServiceBySearch = new OMDbService(APIDATA.OMDb);
-    this.translateService = new TranslateService(APIDATA.Yandex);
+    this.translateService = new TranslateService(APIDATA.MultiTranslate);
     this.virtualKeyboard = new VirtualKeyboard(this.search);
 
     this.lastTerm = '';
@@ -86,7 +86,7 @@ export default class mainService {
         this.searchTerm = translatedTerm;
       })
       .catch((err) => {
-        window.console.log('Yandex Translate:', err);
+        window.console.log('Multi-Translate:', err);
         this.searchTerm = term;
       })
       .finally(() => {

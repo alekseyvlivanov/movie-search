@@ -1,7 +1,7 @@
 export default class TranslateService {
-  constructor(data) {
+  constructor(data, useCorsProxy = true) {
     this.apiBase = data.apiBase;
-    this.apiKey = data.apiKey;
+    this.corsProxy = useCorsProxy ? 'https://cors-anywhere.herokuapp.com/' : '';
     this.ruRegExp = /[А-Яа-я]+/g;
   }
 
@@ -9,7 +9,7 @@ export default class TranslateService {
     if (this.ruRegExp.test(term)) {
       const res = await fetch(
         encodeURI(
-          `${this.apiBase}/translate?key=${this.apiKey}&text=${term}&lang=ru-en`,
+          `${this.corsProxy}${this.apiBase}/translate?source_text=${term}&to_language=en&from_language=ru`,
         ),
       );
 
@@ -19,7 +19,7 @@ export default class TranslateService {
 
       const body = await res.json();
 
-      return body.text[0];
+      return body.translated_text;
     }
 
     // window.console.log('no russian detected:', term);
