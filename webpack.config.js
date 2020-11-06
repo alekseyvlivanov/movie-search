@@ -71,7 +71,6 @@ module.exports = {
     watchContentBase: true,
     hot: isDev,
     port: 9000,
-    open: 'chrome',
   },
   devtool: isDev ? 'source-map' : '',
   plugins: [

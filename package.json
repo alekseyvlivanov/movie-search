@@ -1,7 +1,7 @@
 {
   "name": "movie-search",
   "version": "1.0.0",
-  "description": "MovieSearch",
+  "description": "Movie Search",
   "private": true,
   "jest": {
     "moduleNameMapper": {
@@ -18,19 +18,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rolling-scopes-school/alekseyvlivanov-RS2020Q1.git"
+    "url": "git+https://github.com/alekseyvlivanov/movie-search.git"
   },
   "browserslist": "> 0.25%, not dead",
   "keywords": [
     "movie",
     "search"
   ],
-  "author": "Aleksey Ivanov <aleksey.vl.ivanov@gmail.com>",
+  "author": "Aleksey Ivanov",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rolling-scopes-school/alekseyvlivanov-RS2020Q1/issues"
+    "url": "https://github.com/alekseyvlivanov/movie-search/issues"
   },
-  "homepage": "https://github.com/rolling-scopes-school/alekseyvlivanov-RS2020Q1#readme",
+  "homepage": "https://github.com/alekseyvlivanov/movie-search#readme",
   "devDependencies": {
     "@babel/core": "^7.11.1",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
