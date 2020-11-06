@@ -3,8 +3,8 @@ import fetch from 'node-fetch';
 import TranslateService from './translate-service';
 import APIDATA from './api-data';
 
-if (!globalThis.fetch) {
-  globalThis.fetch = fetch;
+if (!global.fetch) {
+  global.fetch = fetch;
 }
 
 describe('TranslateService', () => {
