@@ -82,7 +82,7 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
-      patterns: ['favicon.ico', '_redirects'],
+      patterns: ['favicon.ico'],
     }),
     new MiniCSSExtractPlugin({
       filename: filename('css'),

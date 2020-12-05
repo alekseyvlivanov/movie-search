@@ -4,9 +4,9 @@
 
 This is a vanilla js SPA that displays movies info by user request.
 
-#### DEMO - https://movie-search.chessiah.com
+#### DEMO - https://movie-search.aleksey-vl-ivanov.com
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/6183b9d3-41d1-4ee8-a056-109f3c31eff3/deploy-status)](https://app.netlify.com/sites/movie-search-chessiah/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/1e9d3e7c-f859-493b-8883-917cfe0666d9/deploy-status)](https://app.netlify.com/sites/movie-search-aleksey-vl-ivanov/deploys)
 
 <div align="center">
 <img src="https://user-images.githubusercontent.com/14129152/81660958-c9c2d300-947e-11ea-8c2b-85c5a6683dfb.png" width="400px">
