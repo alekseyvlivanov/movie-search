@@ -1,5 +1,5 @@
-import '../../node_modules/swiper/css/swiper.min.css';
-import Swiper from 'swiper';
+import 'swiper/swiper-bundle.css';
+import Swiper from 'swiper/bundle';
 
 export default class SwiperService {
   constructor(selector) {
