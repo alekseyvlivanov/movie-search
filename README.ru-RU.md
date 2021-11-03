@@ -4,13 +4,11 @@
 | ---------------- | ------------ | ------------ |
 | 10.05.2020 23:59 | movie-search | movie-search |
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/6183b9d3-41d1-4ee8-a056-109f3c31eff3/deploy-status)](https://app.netlify.com/sites/movie-search-chessiah/deploys)
-
 You can see this project in action:
 
-- Netlify - <https://movie-search.chessiah.com>
+- Cloudflare - <https://movie-search.aleksey-vl-ivanov.com/>
 
-**Movie Search** - одностраничное приложение, отображающее информацию о фильмах по запросу пользователя.  
+**Movie Search** - одностраничное приложение, отображающее информацию о фильмах по запросу пользователя.
 Для получения информации используется OMDb RESTful API.
 
 ## Структура приложения
@@ -154,20 +152,20 @@ You can see this project in action:
 
 ## Примеры использования API
 
-- Получаем OMDb API Key  
+- Получаем OMDb API Key
   `http://www.omdbapi.com/apikey.aspx`
 - Поисковый запрос по ключевому слову "dream" (по умолчанию загружается первая страница)
   `https://www.omdbapi.com/?s=dream&apikey=9b67fc54`
 - Получение второй страницы для поискового запроса по ключевому слову "dream"
   `https://www.omdbapi.com/?s=dream&page=2&apikey=9b67fc54`
-- Получаем рейтинг IMDb по imdbID из предыдущего запроса  
+- Получаем рейтинг IMDb по imdbID из предыдущего запроса
   `https://www.omdbapi.com/?i=tt0180093&apikey=9b67fc54`
-- Получаем Yandex.Translate API key  
+- Получаем Yandex.Translate API key
   `https://translate.yandex.com/developers/keys`
-- Перевод слова "мечта"  
+- Перевод слова "мечта"
   `https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20200322T155651Z.de98a60e6a99185e.089aea4237b51c6db082c966f27a7895cd1e8b44&text=мечта&lang=ru-en`
 
-<details> 
+<details>
   <summary>Примеры асинхронных запросов</summary>
 
   <p></p>
