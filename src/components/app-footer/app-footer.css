@@ -1,0 +1,7 @@
+.footer .nav-link {
+  color: #f8f9fa;
+}
+
+.footer .nav-link:hover {
+  color: rgba(255, 255, 255, 0.5);
+}
